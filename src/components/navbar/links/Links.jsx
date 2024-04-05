@@ -1,7 +1,5 @@
 "use client";
-
 import { useState, useContext } from "react";
-import styles from "./links.module.css";
 import NavLink from "./navLink/navLink";
 import { AuthContext } from "@/context/AuthContext";
 import Image from "next/image";
@@ -20,7 +18,7 @@ const links = [
 
 const Links = () => {
   const [open, setOpen] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const { currentUser, updateUser } = useContext(AuthContext);
 
@@ -34,13 +32,16 @@ const Links = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.links}>
+    <div className="">
+      <div className="hidden sm:flex items-center gap-2">
         {links.map((link) => (
           <NavLink item={link} key={link.title} />
         ))}
         {currentUser ? (
-          <button onClick={handleLogout} className={styles.logout}>
+          <button
+            onClick={handleLogout}
+            className="hidden sm:block p-2 cursor-pointer"
+          >
             Logout
           </button>
         ) : (
@@ -48,7 +49,7 @@ const Links = () => {
         )}
       </div>
       <Image
-        className={styles.menuButton}
+        className="sm:hidden block cursor-pointer p-2"
         src="/menu.png"
         alt=""
         width={30}
@@ -56,7 +57,8 @@ const Links = () => {
         onClick={() => setOpen((prev) => !prev)}
       />
       {open && (
-        <div className={styles.mobileLinks}>
+        <div className="sm:hidden absolute top-14 right-0 w-50% h-[calc(100vh-56px)] 
+        bg-gray-700 flex flex-col items-center justify-center gap-10">
           {links.map((link) => (
             <NavLink item={link} key={link.title} />
           ))}

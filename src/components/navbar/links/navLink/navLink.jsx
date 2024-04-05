@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./navLink.module.css";
 import { usePathname } from "next/navigation";
 
 const NavLink = ({ item }) => {
@@ -10,8 +9,8 @@ const NavLink = ({ item }) => {
   return (
     <Link
       href={item.path}
-      className={`${styles.container} ${
-        pathName === item.path && styles.active
+      className={`container min-w-[100px] px-2 py-2 rounded-2xl font-semibold text-center ${
+        pathName === item.path && "bg-sky-950 text-white"
       }`}
     >
       {item.title}

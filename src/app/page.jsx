@@ -1,9 +1,7 @@
-import styles from "./home.module.css";
-
 const Home = () => {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Hello from Homepage!</h1>
+    <div className="flex">
+      <h1 className="text-6xl">Hello from Homepage!</h1>
     </div>
   );
 };

@@ -1,10 +1,9 @@
-import styles from "./register.module.css";
 import RegisterForm from "@/components/registerForm/registerForm";
 
 const RegisterPage = () => {
   return (
-    <div className={styles.container}>
-      <div className={styles.wrapper}>
+    <div className="flex items-center justify-center">
+      <div className="w-1/3 bg-[--bgSoft] flex flex-col text-center rounded-lg p-8">
         <RegisterForm/>
       </div>
     </div>

@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../../context/AuthContext";
 import { login } from "@/lib/auth";
-import styles from "./loginForm.module.css";
 import Link from "next/link";
 
 const LoginForm = () => {
@@ -36,7 +35,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit} className="flex flex-col text-center gap-6">
       <h1>Đăng Nhập</h1>
       <input
         name="email"
@@ -45,11 +44,25 @@ const LoginForm = () => {
         maxLength={20}
         type="text"
         placeholder="Email"
+        className="px-4 py-4 bg-gray-100 text-black border-none rounded-md"
       />
-      <input name="password" type="password" required placeholder="Password" />
-      <button disabled={isLoading}>Đăng nhập</button>
+      <input
+        className="px-4 py-4 bg-gray-100 text-black border-none rounded-md"
+        name="password"
+        type="password"
+        required
+        placeholder="Password"
+      />
+      <button
+        className="px-4 py-4 cursor-pointer bg-blue-500 text-white font-bold border-none rounded-md"
+        disabled={isLoading}
+      >
+        Đăng nhập
+      </button>
       {error && <span>{error}</span>}
-      <Link href="/register">Bạn chưa có tài khoản? <b>Đăng ký</b></Link>
+      <Link href="/register">
+        Bạn chưa có tài khoản? <b>Đăng ký</b>
+      </Link>
     </form>
   );
 };

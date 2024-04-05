@@ -1,17 +1,16 @@
 import React from 'react'
-import styles from "./blog.module.css";
 import { getPosts } from '@/lib/data';
 
 const posts = await getPosts();
 
 const BlogPage = async () => {
   return (
-    <div className={styles.container}>
+    <div className="">
       <h3>BlogPage</h3>
       <ul>
         {posts.map(post => (
-          <li className={styles.post} key={post.id}>
-            <h3>{post.title}</h3>
+          <li className="ml-5 mb-2" key={post.id}>
+            <h3 className='font-bold'>{post.title}</h3>
             <p>{post.body}</p>
           </li>
         ))}
