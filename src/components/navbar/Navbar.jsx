@@ -3,13 +3,11 @@ import Links from "./links/Links";
 
 const Navbar = async () => {
   return (
-    <div className="sticky top-0 h-14 flex items-center justify-between border-b px-3 bg-sky-100">
+    <div className="sticky absolute z-20 top-0 h-[70px] flex items-center justify-between border-solid border-0 border-b border-blue-900/10 bg-white px-10">
       <Link href="/" className="font-bold text-2xl">
         Logo
       </Link>
-      <div>
-        <Links />
-      </div>
+      <Links />
     </div>
   );
 };

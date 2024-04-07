@@ -10,7 +10,7 @@ const NavLink = ({ item }) => {
     <Link
       href={item.path}
       className={`container min-w-[100px] px-2 py-2 rounded-2xl font-semibold text-center ${
-        pathName === item.path && "bg-sky-950 text-white"
+        pathName === item.path && "underline underline-offset-8"
       }`}
     >
       {item.title}

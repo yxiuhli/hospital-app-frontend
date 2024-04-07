@@ -1,9 +1,9 @@
 "use client";
 import { useState, useContext } from "react";
-import NavLink from "./navLink/navLink";
+import NavLink from "./navLink/NavLink";
 import { AuthContext } from "@/context/AuthContext";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
+import { LoginNavButton, LogoutNavButton } from "./navButton/NavButton";
 
 const links = [
   {
@@ -11,54 +11,48 @@ const links = [
     path: "/",
   },
   {
-    title: "Blog",
-    path: "/blog",
+    title: "Bệnh nhân",
+    path: "/patients",
+  },
+  {
+    title: "Nhân viên",
+    path: "/employees",
+  },
+  {
+    title: "Thuốc",
+    path: "/medicines",
+  },
+  {
+    title: "Thiết bị",
+    path: "/equipments",
   },
 ];
 
 const Links = () => {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
-  const { currentUser, updateUser } = useContext(AuthContext);
-
-  const handleLogout = async () => {
-    try {
-      updateUser(null);
-      router.push("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <div className="">
-      <div className="hidden sm:flex items-center gap-2">
+      <div className="hidden md:flex items-center gap-2">
         {links.map((link) => (
           <NavLink item={link} key={link.title} />
         ))}
-        {currentUser ? (
-          <button
-            onClick={handleLogout}
-            className="hidden sm:block p-2 cursor-pointer"
-          >
-            Logout
-          </button>
+        {currentUser ? <LogoutNavButton/> : <LoginNavButton />}
+      </div>
+      <div onClick={() => setOpen((prev) => !prev)}>
+        {open ? (
+          <XMarkIcon className="h-12 w-12 md:hidden block cursor-pointer p-2" />
         ) : (
-          <NavLink item={{ title: "Login", path: "/login" }} />
+          <Bars3Icon className="h-12 w-12 md:hidden block cursor-pointer p-2" />
         )}
       </div>
-      <Image
-        className="sm:hidden block cursor-pointer p-2"
-        src="/menu.png"
-        alt=""
-        width={30}
-        height={30}
-        onClick={() => setOpen((prev) => !prev)}
-      />
       {open && (
-        <div className="sm:hidden absolute top-14 right-0 w-50% h-[calc(100vh-56px)] 
-        bg-gray-700 flex flex-col items-center justify-center gap-10">
+        <div
+          className="md:hidden absolute top-[70px] right-0 w-1/2 h-[calc(100vh-70px)] 
+        bg-gray-200 flex flex-col items-center justify-center gap-10 "
+        >
           {links.map((link) => (
             <NavLink item={link} key={link.title} />
           ))}

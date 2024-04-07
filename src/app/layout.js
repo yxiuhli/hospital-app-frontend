@@ -18,11 +18,14 @@ export default function RootLayout({ children }) {
         <Providers>
           <div className="relative min-h-screen flex flex-col justify-between">
             <Navbar />
+            <div className="bg-slate-50">
+
             {children}
+            </div>
             <Footer />
           </div>
         </Providers>
       </body>
     </html>
-  );
+  )
 }
