@@ -16,7 +16,7 @@ const links = [
   },
   {
     title: "Nhân viên",
-    path: "/employees",
+    path: "/staffs",
   },
   {
     title: "Thuốc",
@@ -56,6 +56,7 @@ const Links = () => {
           {links.map((link) => (
             <NavLink item={link} key={link.title} />
           ))}
+          {currentUser ? <LogoutNavButton/> : <LoginNavButton />}
         </div>
       )}
     </div>

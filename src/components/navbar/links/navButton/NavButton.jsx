@@ -9,7 +9,7 @@ export const LoginNavButton = () => {
       <Button
         variant="outlined"
         color="black"
-        className="hidden md:block p-2 min-w-24 rounded-xl"
+        className="p-2 min-w-24 rounded-xl"
       >
         Login
       </Button>
@@ -34,7 +34,7 @@ export const LogoutNavButton = () => {
       <Button
         variant="outlined"
         color="black"
-        className="hidden md:block p-2 min-w-24 rounded-xl"
+        className="p-2 min-w-24 rounded-xl"
         onClick={handleLogout}
       >
         Logout

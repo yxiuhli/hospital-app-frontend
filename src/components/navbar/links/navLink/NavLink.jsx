@@ -9,7 +9,7 @@ const NavLink = ({ item }) => {
   return (
     <Link
       href={item.path}
-      className={`container min-w-[100px] px-2 py-2 rounded-2xl font-semibold text-center ${
+      className={`container w-fit px-2 py-2 rounded-2xl font-semibold text-center ${
         pathName === item.path && "underline underline-offset-8"
       }`}
     >

@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <div className="relative min-h-screen flex flex-col justify-between">
             <Navbar />
-            <div className="bg-slate-50">
+            <div className="bg-slate-100 min-h-[calc(100vh-118px)]">
 
             {children}
             </div>

@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 
 const Home = () => {
   return (
-    <div className="flex flex-col justify-start min-h-[calc(100vh-118px)] ">
+    <div className="flex flex-col justify-start">
       <div className="w-full relative h-[450px]">
         <img
           className="absolute top-0 left-0 z-0 static object-cover h-full w-full"
