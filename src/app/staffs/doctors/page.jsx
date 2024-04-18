@@ -41,7 +41,7 @@ const DoctorsPage = async () => {
 
   return (
     <div className="">
-      <Typography className="mt-12 ml-14 mb-8" variant="h5">
+      <Typography className="mt-12 ml-14 mb-8" variant="div">
         Quản lý Bác sĩ
       </Typography>
       <div className="h-[300px] w-full px-12">
