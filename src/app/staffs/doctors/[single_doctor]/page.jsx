@@ -1,13 +1,18 @@
-import React from 'react'
-import { getDoctor } from "@/lib/data";
+import React from "react";
+import { getDoctorById } from "@/lib/data";
+import { Button } from "@mui/material";
 
-const SingleDoctorPage = async ({params}) => {
-  const {single_doctor} = params;
-  const doctor = await getDoctor(single_doctor);
+const SingleDoctorPage = async ({ params }) => {
+  const { single_doctor } = params;
+  const doctor = await getDoctorById(single_doctor);
   console.log(doctor);
   return (
-    <div>SingleDoctorPage</div>
-  )
-}
+    <div>
+      SingleDoctorPage
+      <Button>Thông tin cá nhân</Button>
+      <Button>Lịch làm việc</Button>
+    </div>
+  );
+};
 
-export default SingleDoctorPage
+export default SingleDoctorPage;

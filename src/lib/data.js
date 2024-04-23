@@ -1,18 +1,39 @@
 import apiRequest from "@/config/apiRequest";
 
 export const getPatients = async () =>{
-    const posts = await fetch("http://jsonplaceholder.typicode.com/users");
-    return posts.json();
+    const doctors = await apiRequest.get("/doctors");
+    return doctors.data
 }
-
-export const getEmployees = async () =>{
-    const posts = await fetch("http://jsonplaceholder.typicode.com/users");
-    return posts.json();
+export const getPatientById = async (id) => {
+    const doctor = await apiRequest.get(`/doctors/${id}`);
+    return doctor.data;
 }
 
 export const getDoctors = async () =>{
     const doctors = await apiRequest.get("/doctors");
     return doctors.data
+}
+export const getDoctorById = async (id) => {
+    const doctor = await apiRequest.get(`/doctors/${id}`);
+    return doctor.data;
+}
+
+export const getNurses = async () =>{
+    const doctors = await apiRequest.get("/doctors");
+    return doctors.data
+}
+export const getNurseById = async (id) => {
+    const doctor = await apiRequest.get(`/doctors/${id}`);
+    return doctor.data;
+}
+
+export const getSupporters = async () =>{
+    const doctors = await apiRequest.get("/doctors");
+    return doctors.data
+}
+export const getSupporterById = async (id) => {
+    const doctor = await apiRequest.get(`/doctors/${id}`);
+    return doctor.data;
 }
 
 export const getMedicines = async () =>{
@@ -46,11 +67,5 @@ export const getMedicines = async () =>{
             price: 1000
         }
     ]
-    // const medicines = await fetch("");
     return medicines; 
-}
-
-export const getDoctor = async (id) => {
-    const doctor = await apiRequest.get(`/doctors/${id}`);
-    return doctor.data;
 }

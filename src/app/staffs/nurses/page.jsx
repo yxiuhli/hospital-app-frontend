@@ -1,14 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { getPatients } from "@/lib/data";
-import { Typography, Link, Button } from "@mui/material";
+import { getNurses } from "@/lib/data";
+import { Typography, Button, Link } from "@mui/material";
 
-const PatientsPage = async () => {
-  const [patients,setPatients] =  useState([])
+const NursesPage = async () => {
+
+  const [nurses,setNurses] =  useState([])
 
   useEffect(() => {
-    getPatients().then((data) => setPatients(data))
+    getNurses().then((data) => setNurses(data))
   }, [])
 
   const columns = [
@@ -16,8 +17,8 @@ const PatientsPage = async () => {
       field: "name",
       headerName: "Họ và tên",
       width: 150,
-      renderCell: (params) => {
-        return <Link href={'patients/' + params.id}>{params.value}</Link>;
+      renderCell: (param) => {
+        return <Link href={'nurses/'+param.id}>{param.value}</Link>;
       },
     },
     { field: "dob", headerName: "Ngày sinh", width: 150 },
@@ -42,13 +43,13 @@ const PatientsPage = async () => {
     },
   ];
 
-  const rows = patients.map((patient) => ({
-    id: patient._id,
-    name: patient.name,
-    dob: patient.dob.split("T")[0],
-    gender: patient.gender,
-    start: patient.startedWork.split("T")[0],
-    degree: patient.degree,
+  const rows = nurses.map((nurse) => ({
+    id: nurse._id,
+    name: nurse.name,
+    dob: nurse.dob.split("T")[0],
+    gender: nurse.gender,
+    start: nurse.startedWork.split("T")[0],
+    degree: nurse.degree,
     edit: "edit",
     delete: "delete",
   }));
@@ -56,7 +57,7 @@ const PatientsPage = async () => {
   return (
     <div className="">
       <Typography className="mt-12 ml-14 mb-8" variant="h5">
-        Quản lý Bệnh nhân
+        Quản lý Nhân viên
       </Typography>
       <div className="h-[300px] w-full px-12">
         <DataGrid rows={rows} columns={columns} />
@@ -65,4 +66,4 @@ const PatientsPage = async () => {
   );
 };
 
-export default PatientsPage;
+export default NursesPage;

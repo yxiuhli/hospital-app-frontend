@@ -18,7 +18,7 @@ const StaffsPage = async () => {
             <Link href="staffs/nurses" className="w-full">Quản lý y tá</Link>
           </MenuItem>
           <MenuItem>
-            <Link href="staffs/others" className="w-full">Quản lý nhân viên khác</Link>
+            <Link href="staffs/supporters" className="w-full">Quản lý nhân viên hỗ trợ</Link>
           </MenuItem>
         </MenuList>
       </Paper>

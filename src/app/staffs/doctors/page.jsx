@@ -5,6 +5,7 @@ import { getDoctors } from "@/lib/data";
 import { Typography, Button, Link } from "@mui/material";
 
 const DoctorsPage = async () => {
+
   const [doctors,setDoctors] =  useState([])
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const DoctorsPage = async () => {
       headerName: "Họ và tên",
       width: 150,
       renderCell: (param) => {
-        return <Link href={param.value}>{param.value}</Link>;
+        return <Link href={'doctors/'+param.id}>{param.value}</Link>;
       },
     },
     { field: "dob", headerName: "Ngày sinh", width: 150 },
