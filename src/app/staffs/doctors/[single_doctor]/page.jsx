@@ -9,8 +9,6 @@ const SingleDoctorPage = async ({ params }) => {
   return (
     <div>
       SingleDoctorPage
-      <Button>Thông tin cá nhân</Button>
-      <Button>Lịch làm việc</Button>
     </div>
   );
 };
