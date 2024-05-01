@@ -6,7 +6,7 @@ import Link from "next/link";
 const StaffsPage = async () => {
   return (
     <div className="px-12">
-      <Typography className="mt-12 ml-4 mb-8" variant="h5">
+      <Typography className="ml-14 my-4" variant="h5">
         Quản lý Nhân viên
       </Typography>
       <Paper className="w-1/2">

@@ -1,19 +1,25 @@
 "use client";
 import React from 'react'
-import moment from "moment"
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from "@fullcalendar/interaction"
 
 export default function Schedule() {
-  const localizer = momentLocalizer(moment);
+  const handleDateClick = (arg) => {
+    alert(arg.dateStr)
+  }
 
   return (
     <div className='w-full'>
-      <Calendar
-        localizer={localizer}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 500 }}
+      <FullCalendar
+        plugins={[ dayGridPlugin, interactionPlugin ]}
+        initialView="dayGridMonth"
+        events={[
+          { title: 'event 1', date: '2024-04-28' },
+          { title: 'event 2', date: '2024-04-29' }
+        ]}
+        dateClick={handleDateClick}
+        className='h-[500px]'
       />
     </div>
   )

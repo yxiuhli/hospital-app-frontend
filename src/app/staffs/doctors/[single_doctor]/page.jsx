@@ -51,9 +51,9 @@ const SingleDoctorPage = async ({params}) => {
           </List>
         </Card>
       </div>
-      <div className='p-3 overflow-y-scroll'>
-        <Typography className='font-bold text-3xl mb-7'>Lịch làm việc</Typography>
-        <div className="w-full shadow-lg overflow-y-scroll">
+      <div className='overflow-y-scroll relative'>
+        <Typography className='font-bold text-3xl px-3 py-3 sticky top-0 z-10 bg-[#D6E5FA]'>Lịch làm việc</Typography>
+        <div className="w-full shadow-lg bg-white p-3">
           <Schedule />
         </div>
       </div>

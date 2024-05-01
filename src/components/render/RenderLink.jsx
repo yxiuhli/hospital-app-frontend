@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export async function renderButton(params) {
   return (
-    <Button variant="contained" color={params.value==="edit"?"success":"error"}></Button>
+    <Button variant="contained" color={params.value==="edit"?"success":"error" }>{params.value}</Button>
   );
 }
 
