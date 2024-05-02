@@ -6,7 +6,6 @@ import Schedule from '@/components/schedule/Schedule';
 const SingleDoctorPage = async ({params}) => {
   const {single_doctor} = params;
   const doctor = await getDoctor(single_doctor);
-  const avatarWidth = "400px";
   return (
     <div className='w-full h-[calc(100vh-118px)] grid grid-cols-[400px_1fr] grid-rows-[100%]'>
       <div className='bg-[#5CA0D3] pt-3'>
@@ -60,5 +59,3 @@ const SingleDoctorPage = async ({params}) => {
     </div>
   )
 }
-
-export default SingleDoctorPage
