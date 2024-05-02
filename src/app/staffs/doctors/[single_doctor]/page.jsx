@@ -14,7 +14,7 @@ const SingleDoctorPage = async ({params}) => {
           Thông tin bác sĩ
         </Typography>
         <div className="flex justify-between items-center p-2 mx-7 gap-4 shadow-lg rounded-3xl bg-[#D6E5FA]">
-          <img src={"/" + (doctor.gender == 'male' ? 'doctor_male' : 'doctor_female') + ".png"} alt="" srcSet="" className='object-cover rounded-full w-[25%] aspect-square'/>
+          <img src={"/" + (doctor.gender == 'Nam' ? 'doctor_male' : 'doctor_female') + ".png"} alt="" srcSet="" className='object-cover rounded-full w-[25%] aspect-square'/>
           <div className="w-full flex flex-col items-start justify-start gap-3">
             <Typography className="w-[60%] text-xl">
                 <span className='font-bold w-max]'>Tên: </span>
@@ -35,7 +35,7 @@ const SingleDoctorPage = async ({params}) => {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Giới tính: {(doctor.gender == 'female' ? 'Nữ' : 'Nam')}</ListItemText>
+                <ListItemText>Giới tính: {doctor.gender}</ListItemText>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>

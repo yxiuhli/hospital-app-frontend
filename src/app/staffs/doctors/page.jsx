@@ -34,7 +34,7 @@ const DoctorsPage = async () => {
     id: doctor._id,
     name: doctor.name,
     dob: doctor.dob.split("T")[0].split("-").reverse().join("-"),
-    gender: doctor.gender === 'male' ? 'Nam' : 'Nữ',
+    gender: doctor.gender,
     start: doctor.startedWork.split("T")[0].split("-").reverse().join("-"),
     degree: doctor.degree,
     edit: "edit",
