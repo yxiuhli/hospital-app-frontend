@@ -1,16 +1,47 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { getSupporters } from "@/lib/data";
-import { Typography, Button, Link } from "@mui/material";
+import { addSupporter, deleteSupporterById, getSupporters, updateSupporter } from "@/lib/data";
+import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
 const SupportersPage = async () => {
 
-  const [supporters,setSupporters] =  useState([])
+  const [supporters, setSupporters] =  useState([])
+  const [open, setOpen] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [updatingSupporter, setUpdatingSupporter] = useState({});
+
+  
+  const handleDelete = async (param) => {
+    try {
+      const deletedSupporter = await deleteSupporterById(param.id);
+      setReload(!reload);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const inputs = Object.fromEntries(formData);
+      const supporter = update ? await updateSupporter(inputs, updatingSupporter._id) : await addSupporter(inputs)
+      setReload(!reload);
+      setOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    getSupporters().then((data) => setSupporters(data))
-  }, [])
+    try {
+      getSupporters().then((data) => setSupporters(data))
+    } catch (err) {
+      console.log(err);
+    }
+  }, [reload]);
 
   const columns = [
     {
@@ -29,16 +60,30 @@ const SupportersPage = async () => {
       field: "edit",
       headerName: "Chỉnh sửa",
       width: 120,
-      renderCell: () => {
-        return <Button>Edit</Button>;
+      sortable: false,
+      renderCell: (param) => {
+        return (
+          <Button
+            onClick={() => {
+              setUpdate(true);
+              setOpen(true);
+              setUpdatingDoctor(
+                doctors.find((doctor) => doctor._id === param.id)
+              );
+            }}
+          >
+            Edit
+          </Button>
+        );
       },
     },
     {
       field: "delete",
       headerName: "Xóa",
       width: 120,
-      renderCell: () => {
-        return <Button>Delete</Button>;
+      sortable: false,
+      renderCell: (param) => {
+        return <Button onClick={() => handleDelete(param)}>Delete</Button>;
       },
     },
   ];
@@ -55,13 +100,79 @@ const SupportersPage = async () => {
   }));
 
   return (
-    <div className="">
-      <Typography className="mt-12 ml-14 mb-8" variant="h5">
-        Quản lý Bác sĩ
+    <div className="px-12 flex flex-col gap-8">
+      <Typography className="mt-12 ml-2" variant="h5">
+        Quản lý nhân viên hỗ trợ
       </Typography>
-      <div className="h-[300px] w-full px-12">
+      <div className="h-[340px] w-full">
         <DataGrid rows={rows} columns={columns} />
       </div>
+      <Button
+        onClick={() => {
+          setUpdate(false);
+          setOpen(true);
+        }}
+        variant="contained"
+        className="max-w-96 self-end"
+      >
+        Thêm nhân viên hỗ trợ
+      </Button>
+      <Modal
+        open={open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] bg-white border-solid border-2 shadow-2xl p-4">
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {update ? "Cập nhật thông tin nhân viên hỗ trợ" : "Thêm nhân viên hỗ trợ mới"}
+          </Typography>
+          <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
+            <TextField
+              name="name"
+              label="Họ và tên"
+              variant="standard"
+              defaultValue={update ? updatingSupporter.name : ""}
+            />
+            <TextField
+              type="date"
+              name="dob"
+              label="Ngày sinh"
+              variant="standard"
+              defaultValue={update ? updatingSupporter.dob : "1990-01-01"}
+            />
+            <TextField
+              select
+              name="gender"
+              label="Giới tính"
+              variant="standard"
+              defaultValue={update ? updatingSupporter.gender : "Nam"}
+              SelectProps={{
+                native: true,
+              }}
+            >
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </TextField>
+            <TextField
+              name="start"
+              label="Ngày bắt đầu làm"
+              variant="standard"
+              type="date"
+              defaultValue={update ? updatingSupporter.startedWork : "2021-01-01"}
+            />
+            <TextField
+              name="degree"
+              label="Bằng cấp"
+              variant="standard"
+              defaultValue={update ? updatingSupporter.degree : ""}
+            />
+            <Button variant="contained" type="submit" className="max-w-96 mt-4">
+              Lưu
+            </Button>
+            <Button onClick={() => setOpen(false)}>Hủy bỏ</Button>
+          </form>
+        </Box>
+      </Modal>
     </div>
   );
 };

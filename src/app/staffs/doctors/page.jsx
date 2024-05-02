@@ -1,9 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { getDoctors } from "@/lib/data";
-import { Typography } from "@mui/material";
-import { renderLink, renderButton } from "@/components/render/RenderLink";
 import { addDoctor, deleteDoctorById, getDoctors, updateDoctor } from "@/lib/data";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
@@ -101,28 +98,11 @@ const DoctorsPage = () => {
   }));
 
   return (
-    <div className="">
-      <Typography className="ml-14 my-4" variant="h5">
-        Quản lý Bác sĩ
-      </Typography>
-      <DataGrid 
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
-        className="h-[450px] mx-12 my-0 shadow-lg bg-white"
-      />
     <div className="px-12 flex flex-col gap-8">
       <Typography className="mt-12 ml-2" variant="h5">
         Quản lý Bác sĩ
       </Typography>
-      <div className="h-[300px] w-full">
+      <div className="h-[340px] w-full">
         <DataGrid rows={rows} columns={columns} />
       </div>
       <Button
@@ -191,7 +171,6 @@ const DoctorsPage = () => {
           </form>
         </Box>
       </Modal>
-    </div>
     </div>
   );
 };

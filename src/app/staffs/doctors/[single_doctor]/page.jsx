@@ -1,11 +1,12 @@
 import React from 'react'
-import { getDoctor } from "@/lib/data";
+import { getDoctorById } from "@/lib/data";
 import { Typography, ListItem, List, ListItemButton, ListItemText, Card } from "@mui/material";
 import Schedule from '@/components/schedule/Schedule';
 
 const SingleDoctorPage = async ({params}) => {
   const {single_doctor} = params;
-  const doctor = await getDoctor(single_doctor);
+  const doctor = await getDoctorById(single_doctor);
+  console.log(doctor);
   return (
     <div className='w-full h-[calc(100vh-118px)] grid grid-cols-[400px_1fr] grid-rows-[100%]'>
       <div className='bg-[#5CA0D3] pt-3'>
@@ -29,7 +30,7 @@ const SingleDoctorPage = async ({params}) => {
           <List>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Ngày sinh: {doctor.dob.split("T")[0].split("-").reverse().join("-")}</ListItemText>
+                <ListItemText>Ngày sinh: {doctor.dob.split('-').reverse().join('-')}</ListItemText>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -39,7 +40,7 @@ const SingleDoctorPage = async ({params}) => {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Ngày bắt đầu làm: {doctor.startedWork.split("T")[0].split("-").reverse().join("-")}</ListItemText>
+                <ListItemText>Ngày bắt đầu làm: {doctor.startedWork.split('-').reverse().join('-')}</ListItemText>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -59,3 +60,5 @@ const SingleDoctorPage = async ({params}) => {
     </div>
   )
 }
+
+export default SingleDoctorPage;
