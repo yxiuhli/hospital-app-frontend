@@ -1,12 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { getNurses, deleteNurserById, updateNurse, addNurse } from "@/lib/data";
+import { addNurse, deleteNurseById, getNurses, updateNurse } from "@/lib/NurseAPI";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
-const NursesPage = async () => {
-
-  const [nurses, setNurses] =  useState([])
+const NursesPage = () => {
+  const [nurses, setNurses] = useState([]);
   const [open, setOpen] = useState(false);
   const [reload, setReload] = useState(false);
   const [update, setUpdate] = useState(false);
@@ -14,7 +13,7 @@ const NursesPage = async () => {
 
   const handleDelete = async (param) => {
     try {
-      const deletedNurse = await deleteNurserById(param.id);
+      const deletedNurse = await deleteNurseById(param.id);
       setReload(!reload);
     } catch (err) {
       console.log(err);
@@ -26,7 +25,7 @@ const NursesPage = async () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
-      const nurses = update ? await updateNurse(inputs, updatingNurse._id) : await addNurse(inputs)
+      const nurse = update ? await updateNurse(inputs, updatingNurse.id) : await addNurse(inputs)
       setReload(!reload);
       setOpen(false);
     } catch (err) {
@@ -36,11 +35,11 @@ const NursesPage = async () => {
 
   useEffect(() => {
     try {
-      getNurses().then((data) => setNurses(data))
+      getNurses().then((data) => setNurses(data));
     } catch (err) {
       console.log(err);
     }
-  }, [reload])
+  }, [reload]);
 
   const columns = [
     {
@@ -48,7 +47,7 @@ const NursesPage = async () => {
       headerName: "Họ và tên",
       width: 150,
       renderCell: (param) => {
-        return <Link href={'nurses/'+param.id}>{param.value}</Link>;
+        return <Link href={"nurses/" + param.id}>{param.value}</Link>;
       },
     },
     { field: "dob", headerName: "Ngày sinh", width: 150 },
@@ -59,7 +58,6 @@ const NursesPage = async () => {
       field: "edit",
       headerName: "Chỉnh sửa",
       width: 120,
-      sortable: false,
       renderCell: (param) => {
         return (
           <Button
@@ -67,7 +65,7 @@ const NursesPage = async () => {
               setUpdate(true);
               setOpen(true);
               setUpdatingNurse(
-                nurses.find((nurse) => nurse._id === param.id)
+                nurses.find((nurse) => nurse.id === param.id)
               );
             }}
           >
@@ -80,7 +78,6 @@ const NursesPage = async () => {
       field: "delete",
       headerName: "Xóa",
       width: 120,
-      sortable: false,
       renderCell: (param) => {
         return <Button onClick={() => handleDelete(param)}>Delete</Button>;
       },
@@ -88,11 +85,11 @@ const NursesPage = async () => {
   ];
 
   const rows = nurses.map((nurse) => ({
-    id: nurse._id,
+    id: nurse.id,
     name: nurse.name,
-    dob: nurse.dob.split("T")[0],
+    dob: nurse.dob,
     gender: nurse.gender,
-    start: nurse.startedWork.split("T")[0],
+    start: nurse.start,
     degree: nurse.degree,
     edit: "edit",
     delete: "delete",
@@ -103,7 +100,7 @@ const NursesPage = async () => {
       <Typography className="mt-12 ml-2" variant="h5">
         Quản lý Y tá
       </Typography>
-      <div className="h-[340px] w-full">
+      <div className="h-[300px] w-full">
         <DataGrid rows={rows} columns={columns} />
       </div>
       <Button
@@ -157,7 +154,7 @@ const NursesPage = async () => {
               label="Ngày bắt đầu làm"
               variant="standard"
               type="date"
-              defaultValue={update ? updatingNurse.startedWork : "2021-01-01"}
+              defaultValue={update ? updatingNurse.start : "2021-01-01"}
             />
             <TextField
               name="degree"

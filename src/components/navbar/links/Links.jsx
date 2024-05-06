@@ -24,7 +24,7 @@ const links = [
   },
   {
     title: "Thiết bị",
-    path: "/equipments",
+    path: "/devices",
   },
 ];
 

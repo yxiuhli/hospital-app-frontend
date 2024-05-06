@@ -2,23 +2,23 @@
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import {
-  addMedicine,
-  deleteMedicineById,
-  getMedicines,
-  updateMedicine,
-} from "@/lib/MedicineAPI";
+  addDevice,
+  deleteDeviceById,
+  getDevices,
+  updateDevice,
+} from "@/lib/DeviceAPI";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
-const MedicinesPage = () => {
-  const [medicines, setMedicines] = useState([]);
+const DevicesPage = () => {
+  const [devices, setDevices] = useState([]);
   const [open, setOpen] = useState(false);
   const [reload, setReload] = useState(false);
   const [update, setUpdate] = useState(false);
-  const [updatingMedicine, setUpdatingMedicine] = useState({});
+  const [updatingDevice, setUpdatingDevice] = useState({});
 
   const handleDelete = async (param) => {
     try {
-      const deletedMedicine = await deleteMedicineById(param.id);
+      const deletedDevice = await deleteDeviceById(param.id);
       setReload(!reload);
     } catch (err) {
       console.log(err);
@@ -30,9 +30,9 @@ const MedicinesPage = () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
-      const medicine = update
-        ? await updateMedicine(inputs, updatingMedicine.id)
-        : await addMedicine(inputs);
+      const device = update
+        ? await updateDevice(inputs, updatingDevice.id)
+        : await addDevice(inputs);
       setReload(!reload);
       setOpen(false);
     } catch (err) {
@@ -42,17 +42,22 @@ const MedicinesPage = () => {
 
   useEffect(() => {
     try {
-      getMedicines().then((data) => setMedicines(data));
+      getDevices().then((data) => setDevices(data));
     } catch (err) {
       console.log(err);
     }
   }, [reload]);
 
   const columns = [
-    { field: "name", headerName: "Tên thuốc", width: 150 },
-    { field: "importDate", headerName: "Ngày nhập", width: 150 },
-    { field: "amount", headerName: "Số lượng", width: 150 },
-    { field: "expiry", headerName: "Hạn sử dụng", width: 150 },
+    {
+      field: "name",
+      headerName: "Tên thiết bị",
+      width: 150,
+      renderCell: (params) => {
+        return <Link href={"devices/" + params.id}>{params.value}</Link>;
+      },
+    },
+    { field: "status", headerName: "Tình trạng", width: 150 },
     {
       field: "edit",
       headerName: "Chỉnh sửa",
@@ -63,8 +68,8 @@ const MedicinesPage = () => {
             onClick={() => {
               setUpdate(true);
               setOpen(true);
-              setUpdatingMedicine(
-                medicines.find((medicine) => medicine.id === param.id)
+              setUpdatingDevice(
+                devices.find((device) => device.id === param.id)
               );
             }}
           >
@@ -83,12 +88,10 @@ const MedicinesPage = () => {
     },
   ];
 
-  const rows = medicines.map((medicine) => ({
-    id: medicine.id,
-    name: medicine.name,
-    importDate: medicine.importDate,
-    amount: medicine.amount,
-    expiry: medicine.expiry,
+  const rows = devices.map((device) => ({
+    id: device.id,
+    name: device.name,
+    status: device.status,
     edit: "edit",
     delete: "delete",
   }));
@@ -96,7 +99,7 @@ const MedicinesPage = () => {
   return (
     <div className="px-12 flex flex-col gap-8">
       <Typography className="mt-12 ml-2" variant="h5">
-        Quản lý Thuốc
+        Quản lý Thiết bị
       </Typography>
       <div className="h-[300px] w-full">
         <DataGrid rows={rows} columns={columns} />
@@ -109,7 +112,7 @@ const MedicinesPage = () => {
         variant="contained"
         className="max-w-96 self-end"
       >
-        Thêm thuốc
+        Thêm thiết bị
       </Button>
       <Modal
         open={open}
@@ -118,39 +121,20 @@ const MedicinesPage = () => {
       >
         <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] bg-white border-solid border-2 shadow-2xl p-4">
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {update ? "Cập nhật thông tin thuốc" : "Thêm thuốc mới"}
+            {update ? "Cập nhật thông tin thiết bị" : "Thêm thiết bị mới"}
           </Typography>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
             <TextField
               name="name"
-              label="Tên thuốc"
+              label="Tên thiết bị"
               variant="standard"
-              defaultValue={update ? updatingMedicine.name : ""}
+              defaultValue={update ? updatingDevice.name : ""}
             />
             <TextField
-              type="date"
-              name="importDate"
-              label="Ngày nhập"
+              name="status"
+              label="Tình trạng"
               variant="standard"
-              defaultValue={update ? updatingMedicine.importDate : "2024-04-04"}
-            />
-            <TextField
-              name="shipment"
-              label="Vận chuyển"
-              variant="standard"
-              defaultValue={update ? updatingMedicine.shipment : ""}
-            ></TextField>
-            <TextField
-              name="expiry"
-              label="Hạn sử dụng"
-              variant="standard"
-              defaultValue={update ? updatingMedicine.expiry : ""}
-            />
-            <TextField
-              name="amount"
-              label="Số lượng"
-              variant="standard"
-              defaultValue={update ? updatingMedicine.amount : ""}
+              defaultValue={update ? updatingDevice.status : ""}
             />
             <Button variant="contained" type="submit" className="max-w-96 mt-4">
               Lưu
@@ -163,4 +147,4 @@ const MedicinesPage = () => {
   );
 };
 
-export default MedicinesPage;
+export default DevicesPage;

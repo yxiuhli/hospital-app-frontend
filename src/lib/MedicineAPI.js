@@ -1,55 +1,22 @@
 import apiRequest from "@/config/apiRequest";
 
+export const addMedicine = async (medicine) => {
+    const res = await apiRequest.post("/medicines/add", medicine);
+    return res.data;
+}
 export const getMedicines = async () =>{
-  const medicines = [
-      {
-          id : 1,
-          name : "Paracetamol",
-          description: "any",
-          quantity: 10,
-          price: 1000
-      },
-      {
-          id : 2,
-          name : "Aspirin",
-          description: "any",
-          quantity: 20,
-          price: 1000
-      },
-      {
-          id : 3,
-          name : "Ibuprofen",
-          description: "any",
-          quantity: 30,
-          price: 1000
-      },
-      {
-          id : 4,
-          name : "Naproxen",
-          description: "any",
-          quantity: 40,
-          price: 1000
-      }
-  ]
-  return medicines; 
+    const medicines = await apiRequest.get("/medicines");
+    return medicines.data
 }
-
-export const addMedicine = async (nurse) => {
-  const res = await apiRequest.post("/doctors/add", nurse);
-  return res.data;
-}
-
 export const getMedicineById = async (id) => {
-  const nurse = await apiRequest.get(`/doctors/${id}`);
-  return nurse.data;
+    const medicine = await apiRequest.get(`/medicines/${id}`);
+    return medicine.data;
 }
-
-export const updateMedicine = async (nurse, id) => {
-  const res = await apiRequest.post(`/doctors/update/${id}`, nurse);
-  return res.data;
+export const updateMedicine = async (medicine, id) => {
+    const res = await apiRequest.post(`/medicines/update/${id}`, medicine);
+    return res.data;
 }
-
 export const deleteMedicineById = async (id) => {
-  const nurse = await apiRequest.delete(`/doctors/${id}`);
-  return nurse.data;
+    const medicine = await apiRequest.delete(`/medicines/${id}`);
+    return medicine.data;
 }

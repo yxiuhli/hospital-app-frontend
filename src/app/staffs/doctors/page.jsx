@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { addDoctor, deleteDoctorById, getDoctors, updateDoctor } from "@/lib/data";
+import { addDoctor, deleteDoctorById, getDoctors, updateDoctor } from "@/lib/DoctorAPI";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
 const DoctorsPage = () => {
@@ -25,7 +25,7 @@ const DoctorsPage = () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
-      const doctor = update ? await updateDoctor(inputs, updatingDoctor._id) : await addDoctor(inputs)
+      const doctor = update ? await updateDoctor(inputs, updatingDoctor.id) : await addDoctor(inputs)
       setReload(!reload);
       setOpen(false);
     } catch (err) {
@@ -66,7 +66,7 @@ const DoctorsPage = () => {
               setUpdate(true);
               setOpen(true);
               setUpdatingDoctor(
-                doctors.find((doctor) => doctor._id === param.id)
+                doctors.find((doctor) => doctor.id === param.id)
               );
             }}
           >
@@ -87,11 +87,11 @@ const DoctorsPage = () => {
   ];
 
   const rows = doctors.map((doctor) => ({
-    id: doctor._id,
+    id: doctor.id,
     name: doctor.name,
     dob: doctor.dob.split("T")[0].split("-").reverse().join("-"),
     gender: doctor.gender,
-    start: doctor.startedWork.split("T")[0].split("-").reverse().join("-"),
+    start: doctor.start,
     degree: doctor.degree,
     edit: "edit",
     delete: "delete",
@@ -156,7 +156,7 @@ const DoctorsPage = () => {
               label="Ngày bắt đầu làm"
               variant="standard"
               type="date"
-              defaultValue={update ? updatingDoctor.startedWork : "2021-01-01"}
+              defaultValue={update ? updatingDoctor.start : "2021-01-01"}
             />
             <TextField
               name="degree"
