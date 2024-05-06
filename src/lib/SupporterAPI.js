@@ -1,22 +1,22 @@
 import apiRequest from "@/config/apiRequest";
 
-export const addSupporter = async (supporter) => {
-    const res = await apiRequest.post("/supporters/add", supporter);
+export const addSupporter = async (supportStaff) => {
+    const res = await apiRequest.post("/supportStaffs/add", supportStaff);
     return res.data;
 }
 export const getSupporters = async () =>{
-    const supporters = await apiRequest.get("/supporters");
-    return supporters.data
+    const supportStaffs = await apiRequest.get("/supportStaffs");
+    return supportStaffs.data
 }
 export const getSupporterById = async (id) => {
-    const supporter = await apiRequest.get(`/supporters/${id}`);
-    return supporter.data;
+    const supportStaff = await apiRequest.get(`/supportStaffs/${id}`);
+    return supportStaff.data;
 }
-export const updateSupporter = async (supporter, id) => {
-    const res = await apiRequest.post(`/supporters/update/${id}`, supporter);
+export const updateSupporter = async (supportStaff, id) => {
+    const res = await apiRequest.put(`/supportStaffs/update/${id}`, supportStaff);
     return res.data;
 }
 export const deleteSupporterById = async (id) => {
-    const supporter = await apiRequest.delete(`/supporters/${id}`);
-    return supporter.data;
+    const supportStaff = await apiRequest.delete(`/supportStaffs/${id}`);
+    return supportStaff.data;
 }

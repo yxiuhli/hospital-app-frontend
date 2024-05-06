@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../../context/AuthContext";
-import { login } from "@/lib/auth";
+import { login } from "@/lib/AuthAPI";
 import Link from "next/link";
 
 const LoginForm = () => {
@@ -11,7 +11,7 @@ const LoginForm = () => {
 
   const router = useRouter();
 
-  const { updateUser } = useContext(AuthContext);
+  const { isLogin , setIsLogin } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,10 +23,13 @@ const LoginForm = () => {
     const password = formData.get("password");
 
     try {
-      const res = await login(email, password);
-      const user = await res.data;
-      updateUser(user);
-      router.push("/");
+      const res = login(email, password);
+      if(res) {
+        setIsLogin(res)
+        router.push("/");
+      } else {
+        setError("Email hoặc mật khẩu không đúng");
+      }
     } catch (err) {
       setError(err.response.data.message);
     } finally {

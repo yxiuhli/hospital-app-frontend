@@ -13,7 +13,7 @@ export const getDeviceById = async (id) => {
     return device.data;
 }
 export const updateDevice = async (device, id) => {
-    const res = await apiRequest.post(`/devices/update/${id}`, device);
+    const res = await apiRequest.put(`/devices/update/${id}`, device);
     return res.data;
 }
 export const deleteDeviceById = async (id) => {

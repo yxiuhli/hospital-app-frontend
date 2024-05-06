@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { addPatient, deletePatientById, getPatients, updatePatient } from "@/lib/PatientAPI";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
-const PatientsPage = async () => {
+const PatientsPage = () => {
   const [patients, setPatients] = useState([]);
   const [open, setOpen] = useState(false);
   const [reload, setReload] = useState(false);
@@ -25,7 +25,7 @@ const PatientsPage = async () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
-      const patient = update ? await updatePatient(inputs, updatingPatient.id) : await addPatient(inputs)
+      const patient = update ? await updatePatient(inputs, BigInt(updatingPatient.id)+1n) : await addPatient(inputs)
       setReload(!reload);
       setOpen(false);
     } catch (err) {
@@ -65,7 +65,7 @@ const PatientsPage = async () => {
               setUpdate(true);
               setOpen(true);
               setUpdatingPatient(
-                patients.find((patient) => patient.id === param.id)
+                patients.find((patient) => BigInt(patient.id)+1n === param.id)
               );
             }}
           >
@@ -85,11 +85,11 @@ const PatientsPage = async () => {
   ];
 
   const rows = patients.map((patient) => ({
-    id: patient.id,
-    name: patient.name,
-    dob: patient.dob,
+    id: BigInt(patient.id)+1n,
+    name: patient.fullName,
+    dob: patient.dateOfBirth,
     gender: patient.gender,
-    phone: patient.phone,
+    phone: patient.phoneNumber,
     address: patient.address,
     edit: "edit",
     delete: "delete",
@@ -124,17 +124,17 @@ const PatientsPage = async () => {
           </Typography>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
             <TextField
-              name="name"
+              name="fullName"
               label="Họ và tên"
               variant="standard"
-              defaultValue={update ? updatingPatient.name : ""}
+              defaultValue={update ? updatingPatient.fullName : ""}
             />
             <TextField
               type="date"
-              name="dob"
+              name="dateOfBirth"
               label="Ngày sinh"
               variant="standard"
-              defaultValue={update ? updatingPatient.dob : "1990-01-01"}
+              defaultValue={update ? updatingPatient.dateOfBirth : "1990-01-01"}
             />
             <TextField
               select
@@ -150,10 +150,10 @@ const PatientsPage = async () => {
               <option value="Nữ">Nữ</option>
             </TextField>
             <TextField
-              name="phone"
+              name="phoneNumber"
               label="Số điện thoại"
               variant="standard"
-              defaultValue={update ? updatingPatient.phone : ""}
+              defaultValue={update ? updatingPatient.phoneNumber : ""}
             />
             <TextField
               name="address"

@@ -1,5 +1,5 @@
 import React from "react";
-import { getNurseById } from "@/lib/data";
+import { getNurseById } from "@/lib/NurseAPI";
 import { Typography, ListItem, List, ListItemButton, ListItemText, Card } from "@mui/material";
 import Schedule from '@/components/schedule/Schedule';
 
@@ -21,7 +21,7 @@ const SingleNursePage = async ({ params }) => {
             </Typography>
             <Typography className="w-[60%] text-xl"> 
                 <span className='font-bold w-max]'>Vị trí:  </span>
-                <span className='w-max capitalize font-light '>{nurse.job}</span>
+                <span className='w-max capitalize font-light '>{nurse.position}</span>
             </Typography>
           </div>
         </div>
@@ -29,7 +29,7 @@ const SingleNursePage = async ({ params }) => {
           <List>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Ngày sinh: {nurse.dob.split('-').reverse().join('-')}</ListItemText>
+                <ListItemText>Ngày sinh: {nurse.dob}</ListItemText>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -39,7 +39,7 @@ const SingleNursePage = async ({ params }) => {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Ngày bắt đầu làm: {nurse.startedWork.split('-').reverse().join('-')}</ListItemText>
+                <ListItemText>Ngày bắt đầu làm: {nurse.start}</ListItemText>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>

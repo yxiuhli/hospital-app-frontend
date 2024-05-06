@@ -19,11 +19,11 @@ export const LoginNavButton = () => {
 
 export const LogoutNavButton = () => {
 
-  const { updateUser } = useContext(AuthContext);
+  const { setIsLogin } = useContext(AuthContext);
 
   const handleLogout = async () => {
     try {
-      updateUser(null);
+      setIslogin(null);
     } catch (err) {
       console.log(err);
     }

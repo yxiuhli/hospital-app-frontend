@@ -31,7 +31,7 @@ const links = [
 const Links = () => {
   const [open, setOpen] = useState(false);
 
-  const { currentUser } = useContext(AuthContext);
+  const { isLogin } = useContext(AuthContext);
 
   return (
     <div className="">
@@ -39,7 +39,7 @@ const Links = () => {
         {links.map((link) => (
           <NavLink item={link} key={link.title} />
         ))}
-        {currentUser ? <LogoutNavButton/> : <LoginNavButton />}
+        {isLogin ? <LogoutNavButton/> : <LoginNavButton />}
       </div>
       <div onClick={() => setOpen((prev) => !prev)}>
         {open ? (
@@ -56,7 +56,7 @@ const Links = () => {
           {links.map((link) => (
             <NavLink item={link} key={link.title} />
           ))}
-          {currentUser ? <LogoutNavButton/> : <LoginNavButton />}
+          {isLogin ? <LogoutNavButton/> : <LoginNavButton />}
         </div>
       )}
     </div>

@@ -13,7 +13,7 @@ export const getDoctorById = async (id) => {
     return doctor.data;
 }
 export const updateDoctor = async (doctor, id) => {
-    const res = await apiRequest.post(`/doctors/update/${id}`, doctor);
+    const res = await apiRequest.put(`/doctors/update/${id}`, doctor);
     return res.data;
 }
 export const deleteDoctorById = async (id) => {

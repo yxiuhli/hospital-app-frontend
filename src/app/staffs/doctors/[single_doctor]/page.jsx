@@ -1,12 +1,19 @@
-import React from 'react'
-import { getDoctorById } from "@/lib/data";
+"use client"
+import {useState,useEffect} from 'react'
+import { getDoctorById } from "@/lib/DoctorAPI";
 import { Typography, ListItem, List, ListItemButton, ListItemText, Card } from "@mui/material";
 import Schedule from '@/components/schedule/Schedule';
 
-const SingleDoctorPage = async ({params}) => {
+const SingleDoctorPage = ({params}) => {
   const {single_doctor} = params;
-  const doctor = await getDoctorById(single_doctor);
-  console.log(doctor);
+  const [doctor, setDoctor] = useState({})
+  useEffect(() => {
+    try {
+      getDoctorById(single_doctor).then((data) => setDoctor(data));
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
   return (
     <div className='w-full h-[calc(100vh-118px)] grid grid-cols-[400px_1fr] grid-rows-[100%]'>
       <div className='bg-[#5CA0D3] pt-3'>
@@ -22,7 +29,7 @@ const SingleDoctorPage = async ({params}) => {
             </Typography>
             <Typography className="w-[60%] text-xl"> 
                 <span className='font-bold w-max]'>Vị trí:  </span>
-                <span className='w-max capitalize font-light '>{doctor.job}</span>
+                <span className='w-max capitalize font-light '>{doctor.position}</span>
             </Typography>
           </div>
         </div>
@@ -30,7 +37,7 @@ const SingleDoctorPage = async ({params}) => {
           <List>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Ngày sinh: {doctor.dob.split('-').reverse().join('-')}</ListItemText>
+                <ListItemText>Ngày sinh: {doctor.dob}</ListItemText>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -40,12 +47,17 @@ const SingleDoctorPage = async ({params}) => {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Ngày bắt đầu làm: {doctor.startedWork.split('-').reverse().join('-')}</ListItemText>
+                <ListItemText>Ngày bắt đầu làm: {doctor.startDay}</ListItemText>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemText>Bằng cấp: {doctor.degree}</ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText>Chuyên môn: {doctor.special}</ListItemText>
               </ListItemButton>
             </ListItem>
           </List>

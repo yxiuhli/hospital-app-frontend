@@ -13,7 +13,7 @@ export const getNurseById = async (id) => {
     return nurse.data;
 }
 export const updateNurse = async (nurse, id) => {
-    const res = await apiRequest.post(`/nurses/update/${id}`, nurse);
+    const res = await apiRequest.put(`/nurses/update/${id}`, nurse);
     return res.data;
 }
 export const deleteNurseById = async (id) => {

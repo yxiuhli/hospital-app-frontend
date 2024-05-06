@@ -31,7 +31,7 @@ const MedicinesPage = () => {
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
       const medicine = update
-        ? await updateMedicine(inputs, updatingMedicine.id)
+        ? await updateMedicine(inputs, BigInt(updatingMedicine.id)+1n)
         : await addMedicine(inputs);
       setReload(!reload);
       setOpen(false);
@@ -51,7 +51,7 @@ const MedicinesPage = () => {
   const columns = [
     { field: "name", headerName: "Tên thuốc", width: 150 },
     { field: "importDate", headerName: "Ngày nhập", width: 150 },
-    { field: "amount", headerName: "Số lượng", width: 150 },
+    { field: "number", headerName: "Số lượng", width: 150 },
     { field: "expiry", headerName: "Hạn sử dụng", width: 150 },
     {
       field: "edit",
@@ -64,7 +64,7 @@ const MedicinesPage = () => {
               setUpdate(true);
               setOpen(true);
               setUpdatingMedicine(
-                medicines.find((medicine) => medicine.id === param.id)
+                medicines.find((medicine) => BigInt(medicine.id)+1n === param.id)
               );
             }}
           >
@@ -84,10 +84,10 @@ const MedicinesPage = () => {
   ];
 
   const rows = medicines.map((medicine) => ({
-    id: medicine.id,
+    id: BigInt(medicine.id)+1n,
     name: medicine.name,
     importDate: medicine.importDate,
-    amount: medicine.amount,
+    number: medicine.number,
     expiry: medicine.expiry,
     edit: "edit",
     delete: "delete",
@@ -136,21 +136,22 @@ const MedicinesPage = () => {
             />
             <TextField
               name="shipment"
-              label="Vận chuyển"
+              label="Lô sản xuất"
               variant="standard"
               defaultValue={update ? updatingMedicine.shipment : ""}
             ></TextField>
             <TextField
+              type="date"
               name="expiry"
               label="Hạn sử dụng"
               variant="standard"
-              defaultValue={update ? updatingMedicine.expiry : ""}
+              defaultValue={update ? updatingMedicine.expiry : "2029-01-01"}
             />
             <TextField
-              name="amount"
+              name="number"
               label="Số lượng"
               variant="standard"
-              defaultValue={update ? updatingMedicine.amount : ""}
+              defaultValue={update ? updatingMedicine.number : ""}
             />
             <Button variant="contained" type="submit" className="max-w-96 mt-4">
               Lưu

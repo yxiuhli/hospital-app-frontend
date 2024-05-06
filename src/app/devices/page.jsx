@@ -31,7 +31,7 @@ const DevicesPage = () => {
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
       const device = update
-        ? await updateDevice(inputs, updatingDevice.id)
+        ? await updateDevice(inputs, BigInt(updatingDevice.id) + 1n)
         : await addDevice(inputs);
       setReload(!reload);
       setOpen(false);
@@ -54,7 +54,7 @@ const DevicesPage = () => {
       headerName: "Tên thiết bị",
       width: 150,
       renderCell: (params) => {
-        return <Link href={"devices/" + params.id}>{params.value}</Link>;
+        return <Button>{params.value}</Button>;
       },
     },
     { field: "status", headerName: "Tình trạng", width: 150 },
@@ -69,7 +69,7 @@ const DevicesPage = () => {
               setUpdate(true);
               setOpen(true);
               setUpdatingDevice(
-                devices.find((device) => device.id === param.id)
+                devices.find((device) => BigInt(device.id) + 1n === param.id)
               );
             }}
           >
@@ -89,7 +89,7 @@ const DevicesPage = () => {
   ];
 
   const rows = devices.map((device) => ({
-    id: device.id,
+    id: BigInt(device.id) + 1n,
     name: device.name,
     status: device.status,
     edit: "edit",
@@ -101,19 +101,31 @@ const DevicesPage = () => {
       <Typography className="mt-12 ml-2" variant="h5">
         Quản lý Thiết bị
       </Typography>
-      <div className="h-[300px] w-full">
-        <DataGrid rows={rows} columns={columns} />
+      <div className="flex justify-between divide-x">
+        <div className="h-[300px] w-2/5  flex flex-col">
+          <DataGrid rows={rows} columns={columns} />
+          <Button
+            onClick={() => {
+              setUpdate(false);
+              setOpen(true);
+            }}
+            variant="contained"
+            className="max-w-96 self-end"
+          >
+            Thêm thiết bị
+          </Button>
+        </div>
+        <div className="w-2/5 bg-slate-200 rounded-md drop-shadow-md">
+          <Typography className="mt-2 ml-2 drop-shadow-sm font-semibold text-slate-700" variant="h5">
+            Lịch sử bảo dưỡng thiết bị
+          </Typography>
+          <hr/>
+          <ul>
+            
+          </ul>
+        </div>
       </div>
-      <Button
-        onClick={() => {
-          setUpdate(false);
-          setOpen(true);
-        }}
-        variant="contained"
-        className="max-w-96 self-end"
-      >
-        Thêm thiết bị
-      </Button>
+
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"

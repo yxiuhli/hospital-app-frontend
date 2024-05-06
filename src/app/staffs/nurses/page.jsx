@@ -1,7 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { addNurse, deleteNurseById, getNurses, updateNurse } from "@/lib/NurseAPI";
+import {
+  addNurse,
+  deleteNurseById,
+  getNurses,
+  updateNurse,
+} from "@/lib/NurseAPI";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
 const NursesPage = () => {
@@ -25,7 +30,9 @@ const NursesPage = () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
-      const nurse = update ? await updateNurse(inputs, updatingNurse.id) : await addNurse(inputs)
+      const nurse = update
+        ? await updateNurse(inputs, updatingNurse.id)
+        : await addNurse(inputs);
       setReload(!reload);
       setOpen(false);
     } catch (err) {
@@ -42,6 +49,7 @@ const NursesPage = () => {
   }, [reload]);
 
   const columns = [
+    { field: "id", headerName: "id", width: 30 },
     {
       field: "name",
       headerName: "Họ và tên",
@@ -52,7 +60,7 @@ const NursesPage = () => {
     },
     { field: "dob", headerName: "Ngày sinh", width: 150 },
     { field: "gender", headerName: "Giới tính", width: 100 },
-    { field: "start", headerName: "Ngày bắt đầu làm", width: 200 },
+    { field: "startDay", headerName: "Ngày bắt đầu làm", width: 200 },
     { field: "degree", headerName: "Bằng cấp", width: 450 },
     {
       field: "edit",
@@ -64,9 +72,7 @@ const NursesPage = () => {
             onClick={() => {
               setUpdate(true);
               setOpen(true);
-              setUpdatingNurse(
-                nurses.find((nurse) => nurse.id === param.id)
-              );
+              setUpdatingNurse(nurses.find((nurse) => nurse.id === param.id));
             }}
           >
             Edit
@@ -89,12 +95,12 @@ const NursesPage = () => {
     name: nurse.name,
     dob: nurse.dob,
     gender: nurse.gender,
-    start: nurse.start,
+    startDay: nurse.startDay,
     degree: nurse.degree,
     edit: "edit",
     delete: "delete",
   }));
-
+  console.log(updatingNurse)
   return (
     <div className="px-12 flex flex-col gap-8">
       <Typography className="mt-12 ml-2" variant="h5">
@@ -124,6 +130,13 @@ const NursesPage = () => {
           </Typography>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
             <TextField
+              name="id"
+              label="id"
+              variant="standard"
+              disabled={update ? true : false}
+              defaultValue={update ? updatingNurse.id : ""}
+            />
+            <TextField
               name="name"
               label="Họ và tên"
               variant="standard"
@@ -150,11 +163,11 @@ const NursesPage = () => {
               <option value="Nữ">Nữ</option>
             </TextField>
             <TextField
-              name="start"
+              name="startDay"
               label="Ngày bắt đầu làm"
               variant="standard"
               type="date"
-              defaultValue={update ? updatingNurse.start : "2021-01-01"}
+              defaultValue={update ? updatingNurse.startDay : "2021-01-01"}
             />
             <TextField
               name="degree"

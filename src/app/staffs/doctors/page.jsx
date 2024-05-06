@@ -1,7 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { addDoctor, deleteDoctorById, getDoctors, updateDoctor } from "@/lib/DoctorAPI";
+import {
+  addDoctor,
+  deleteDoctorById,
+  getDoctors,
+  updateDoctor,
+} from "@/lib/DoctorAPI";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
 const DoctorsPage = () => {
@@ -25,7 +30,9 @@ const DoctorsPage = () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
-      const doctor = update ? await updateDoctor(inputs, updatingDoctor.id) : await addDoctor(inputs)
+      const doctor = update
+        ? await updateDoctor(inputs, updatingDoctor.id)
+        : await addDoctor(inputs);
       setReload(!reload);
       setOpen(false);
     } catch (err) {
@@ -42,6 +49,7 @@ const DoctorsPage = () => {
   }, [reload]);
 
   const columns = [
+    { field: "id", headerName: "id", width: 30 },
     {
       field: "name",
       headerName: "Họ và tên",
@@ -52,8 +60,9 @@ const DoctorsPage = () => {
     },
     { field: "dob", headerName: "Ngày sinh", width: 150 },
     { field: "gender", headerName: "Giới tính", width: 100 },
-    { field: "start", headerName: "Ngày bắt đầu làm", width: 200 },
-    { field: "degree", headerName: "Bằng cấp", width: 335 },
+    { field: "startDay", headerName: "Ngày bắt đầu làm", width: 200 },
+    { field: "degree", headerName: "Bằng cấp", width: 300 },
+    { field: "special", headerName: "Chuyên môn", width: 150 },
     {
       field: "edit",
       headerName: "Chỉnh sửa",
@@ -85,14 +94,16 @@ const DoctorsPage = () => {
       },
     },
   ];
+  
 
   const rows = doctors.map((doctor) => ({
     id: doctor.id,
     name: doctor.name,
-    dob: doctor.dob.split("T")[0].split("-").reverse().join("-"),
+    dob: doctor.dob,
     gender: doctor.gender,
-    start: doctor.start,
+    startDay: doctor.startDay,
     degree: doctor.degree,
+    special: doctor.special,
     edit: "edit",
     delete: "delete",
   }));
@@ -126,6 +137,13 @@ const DoctorsPage = () => {
           </Typography>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
             <TextField
+              name="id"
+              label="id"
+              variant="standard"
+              disabled={update ? true : false}
+              defaultValue={update ? updatingDoctor.id : ""}
+            />
+            <TextField
               name="name"
               label="Họ và tên"
               variant="standard"
@@ -152,15 +170,21 @@ const DoctorsPage = () => {
               <option value="Nữ">Nữ</option>
             </TextField>
             <TextField
-              name="start"
+              name="startDay"
               label="Ngày bắt đầu làm"
               variant="standard"
               type="date"
-              defaultValue={update ? updatingDoctor.start : "2021-01-01"}
+              defaultValue={update ? updatingDoctor.startDay : "2021-01-01"}
             />
             <TextField
               name="degree"
               label="Bằng cấp"
+              variant="standard"
+              defaultValue={update ? updatingDoctor.degree : ""}
+            />
+            <TextField
+              name="special"
+              label="Chuyên môn"
               variant="standard"
               defaultValue={update ? updatingDoctor.degree : ""}
             />

@@ -1,7 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { addSupporter, deleteSupporterById, getSupporters, updateSupporter } from "@/lib/SupporterAPI";
+import {
+  addSupporter,
+  deleteSupporterById,
+  getSupporters,
+  updateSupporter,
+} from "@/lib/SupporterAPI";
 import { Typography, Link, Button, Modal, Box, TextField } from "@mui/material";
 
 const SupportersPage = () => {
@@ -25,7 +30,9 @@ const SupportersPage = () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const inputs = Object.fromEntries(formData);
-      const supporter = update ? await updateSupporter(inputs, updatingSupporter.id) : await addSupporter(inputs)
+      const supporter = update
+        ? await updateSupporter(inputs, updatingSupporter.id)
+        : await addSupporter(inputs);
       setReload(!reload);
       setOpen(false);
     } catch (err) {
@@ -42,6 +49,7 @@ const SupportersPage = () => {
   }, [reload]);
 
   const columns = [
+    { field: "id", headerName: "id", width: 30 },
     {
       field: "name",
       headerName: "Họ và tên",
@@ -52,8 +60,8 @@ const SupportersPage = () => {
     },
     { field: "dob", headerName: "Ngày sinh", width: 150 },
     { field: "gender", headerName: "Giới tính", width: 100 },
-    { field: "start", headerName: "Ngày bắt đầu làm", width: 200 },
-    { field: "degree", headerName: "Bằng cấp", width: 450 },
+    { field: "startDay", headerName: "Ngày bắt đầu làm", width: 200 },
+    { field: "position", headerName: "Vị trí", width: 250 },
     {
       field: "edit",
       headerName: "Chỉnh sửa",
@@ -89,8 +97,8 @@ const SupportersPage = () => {
     name: supporter.name,
     dob: supporter.dob,
     gender: supporter.gender,
-    start: supporter.start,
-    degree: supporter.degree,
+    startDay: supporter.startDay,
+    position: supporter.position,
     edit: "edit",
     delete: "delete",
   }));
@@ -120,9 +128,18 @@ const SupportersPage = () => {
       >
         <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] bg-white border-solid border-2 shadow-2xl p-4">
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {update ? "Cập nhật thông tin nhân viên hỗ trợ " : "Thêm nhân viên hỗ trợ mới"}
+            {update
+              ? "Cập nhật thông tin nhân viên hỗ trợ "
+              : "Thêm nhân viên hỗ trợ mới"}
           </Typography>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
+            <TextField
+              name="id"
+              label="id"
+              variant="standard"
+              disabled={update ? true : false}
+              defaultValue={update ? updatingSupporter.id : ""}
+            />
             <TextField
               name="name"
               label="Họ và tên"
@@ -150,17 +167,17 @@ const SupportersPage = () => {
               <option value="Nữ">Nữ</option>
             </TextField>
             <TextField
-              name="start"
+              name="startDay"
               label="Ngày bắt đầu làm"
               variant="standard"
               type="date"
-              defaultValue={update ? updatingSupporter.start : "2021-01-01"}
+              defaultValue={update ? updatingSupporter.startDay : "2021-01-01"}
             />
             <TextField
-              name="degree"
-              label="Bằng cấp"
+              name="position"
+              label="Vị trí"
               variant="standard"
-              defaultValue={update ? updatingSupporter.degree : ""}
+              defaultValue={update ? updatingSupporter.position : ""}
             />
             <Button variant="contained" type="submit" className="max-w-96 mt-4">
               Lưu
